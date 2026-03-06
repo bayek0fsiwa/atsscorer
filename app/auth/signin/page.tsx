@@ -100,18 +100,17 @@ export default function LoginForm() {
             <Card className="w-full max-w-110 border-[#262626] bg-[#121212] text-white">
                 <CardHeader className="space-y-4 pt-4 text-center">
                     <Image
-                        src={"/logo.png"}
+                        src={"/logo.svg"}
                         className="h-10 w-10 mx-auto"
                         height={40}
                         width={40}
-                        alt="CodersGPT"
+                        alt="ATS Scorer"
                     />
                     <CardTitle className="text-[32px] font-semibold tracking-tight text-[#ececec]">
-                        Log in CodersGPT
+                        Log in ATS Scorer
                     </CardTitle>
                     <CardDescription className="mx-auto max-w-80 text-[15px] leading-relaxed text-[#b4b4b4]">
-                        You&apos;ll get smarter responses and can upload
-                        files, images, and more.
+                        You&apos;ll get smarter suggestions and ideas to improve your resume.
                     </CardDescription>
                 </CardHeader>
 
@@ -122,7 +121,7 @@ export default function LoginForm() {
                         <Button
                             variant="outline"
                             disabled={false}
-                            className="h-13 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70"
+                            className="h-11 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70"
                             onClick={() => {
                                 handleSocialLogin("google");
                             }}>
@@ -138,7 +137,7 @@ export default function LoginForm() {
                         <Button
                             variant="outline"
                             disabled={false}
-                            className="h-13 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70"
+                            className="h-11 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70"
                             onClick={() => {
                                 handleSocialLogin("github");
                             }}>
@@ -185,14 +184,14 @@ export default function LoginForm() {
                                                 type="email"
                                                 placeholder="Email address"
                                                 className={cn(
-                                                    "h-13 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors placeholder:text-[#676767] focus:ring-0",
+                                                    "h-11 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors placeholder:text-[#676767] focus:ring-0",
                                                     hasError
                                                         ? "border-red-500 focus:border-red-500"
                                                         : "focus:border-[#676767]",
                                                 )}
                                             />
                                             {/* Reserved space for error to prevent layout shift */}
-                                            <div className="min-h-5 px-1 py-0.5">
+                                            <div className="min-h-1 px-1 py-0.5">
                                                 {hasError && (
                                                     <FieldError
                                                         className="text-xs text-red-500 animate-in fade-in slide-in-from-top-1 duration-200"
@@ -225,14 +224,14 @@ export default function LoginForm() {
                                                 type="password"
                                                 placeholder="Password"
                                                 className={cn(
-                                                    "h-13 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors placeholder:text-[#676767] focus:ring-0",
+                                                    "h-11 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors placeholder:text-[#676767] focus:ring-0",
                                                     hasError
                                                         ? "border-red-500 focus:border-red-500"
                                                         : "focus:border-[#676767]",
                                                 )}
                                             />
                                             {/* Reserved space for error to prevent layout shift */}
-                                            <div className="min-h-5 px-1 py-0.5">
+                                            <div className="min-h-1 px-1 py-0.5">
                                                 {hasError && (
                                                     <FieldError
                                                         className="text-xs text-red-500 animate-in fade-in slide-in-from-top-1 duration-200"
@@ -259,7 +258,7 @@ export default function LoginForm() {
                                 ]) => (
                                     <Button
                                         type="submit"
-                                        className="mt-2 h-13 w-full rounded-full bg-[#ececec] text-[16px] font-semibold text-black hover:bg-white active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#ececec]"
+                                        className="mt-2 h-11 w-full rounded-full bg-[#ececec] text-[16px] font-semibold text-black hover:bg-white active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#ececec]"
                                         disabled={!canSubmit || !isDirty}>
                                         {isSubmitting || isLoading ? (
                                             <Loader2 className="size-5 animate-spin" />

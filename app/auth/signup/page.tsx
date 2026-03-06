@@ -114,18 +114,17 @@ export default function SignupForm() {
             <Card className="w-full max-w-110 border-[#262626] bg-[#121212] text-white">
                 <CardHeader className="space-y-4 pt-4 text-center">
                     <Image
-                        src={"/logo.png"}
+                        src={"/logo.svg"}
                         className="h-10 w-10 mx-auto"
                         height={40}
                         width={40}
-                        alt="CodersGPT"
+                        alt="ATS Scorer"
                     />
                     <CardTitle className="text-[32px] font-semibold tracking-tight text-[#ececec]">
                         Create an account
                     </CardTitle>
                     <CardDescription className="mx-auto max-w-80 text-[15px] leading-relaxed text-[#b4b4b4]">
-                        Join CodersGPT to get smarter responses and
-                        start building today.
+                        Join ATS Scorer to get smarter suggestions and ideas to improve your resume.
                     </CardDescription>
                 </CardHeader>
 
@@ -136,7 +135,7 @@ export default function SignupForm() {
                         <Button
                             variant="outline"
                             disabled={false}
-                            className="h-13 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70"
+                            className="h-11 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70"
                             onClick={() => {
                                 handleSocialLogin("google");
                             }}>
@@ -152,7 +151,7 @@ export default function SignupForm() {
                         <Button
                             variant="outline"
                             disabled={false}
-                            className="h-13 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70"
+                            className="h-11 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70"
                             onClick={() => {
                                 handleSocialLogin("github");
                             }}>
@@ -196,13 +195,13 @@ export default function SignupForm() {
                                                 }
                                                 placeholder="Username"
                                                 className={cn(
-                                                    "h-13 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors focus:ring-0",
+                                                    "h-11 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors focus:ring-0",
                                                     hasError
                                                         ? "border-red-500"
                                                         : "focus:border-[#676767]",
                                                 )}
                                             />
-                                            <div className="min-h-5 px-1 py-0.5">
+                                            <div className="min-h-1 px-1 py-0.5">
                                                 {hasError && (
                                                     <FieldError
                                                         className="text-xs text-red-500 animate-in fade-in slide-in-from-top-1 duration-200"
@@ -233,13 +232,13 @@ export default function SignupForm() {
                                                 }
                                                 placeholder="Email address"
                                                 className={cn(
-                                                    "h-13 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors focus:ring-0",
+                                                    "h-11 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors focus:ring-0",
                                                     hasError
                                                         ? "border-red-500"
                                                         : "focus:border-[#676767]",
                                                 )}
                                             />
-                                            <div className="min-h-5 px-1 py-0.5">
+                                            <div className="min-h-1 px-1 py-0.5">
                                                 {hasError && (
                                                     <FieldError
                                                         className="text-xs text-red-500 animate-in fade-in slide-in-from-top-1 duration-200"
@@ -270,13 +269,13 @@ export default function SignupForm() {
                                                 }
                                                 placeholder="Password"
                                                 className={cn(
-                                                    "h-13 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors focus:ring-0",
+                                                    "h-11 rounded-xl border-[#424242] bg-transparent px-4 text-base transition-colors focus:ring-0",
                                                     hasError
                                                         ? "border-red-500"
                                                         : "focus:border-[#676767]",
                                                 )}
                                             />
-                                            <div className="min-h-5 px-1 py-0.5">
+                                            <div className="min-h-1 px-1 py-0.5">
                                                 {hasError && (
                                                     <FieldError
                                                         className="text-xs text-red-500 animate-in fade-in slide-in-from-top-1 duration-200"
@@ -302,7 +301,7 @@ export default function SignupForm() {
                                 ]) => (
                                     <Button
                                         type="submit"
-                                        className="mt-2 h-13 w-full rounded-full bg-[#ececec] text-[16px] font-semibold text-black hover:bg-white disabled:opacity-50"
+                                        className="mt-2 h-11 w-full rounded-full bg-[#ececec] text-[16px] font-semibold text-black hover:bg-white disabled:opacity-50"
                                         disabled={!canSubmit || !isDirty}>
                                         {isSubmitting || isLoading ? (
                                             <Loader2 className="size-5 animate-spin" />
