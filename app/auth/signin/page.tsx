@@ -64,14 +64,14 @@ export default function LoginForm() {
                     },
                     onSuccess: (ctx) => {
                         setIsLoading(false);
-                        toast.success("Account created successfully!");
+                        toast.success("Logged in successfully!");
                         router.push("/");
                     },
                     onError: (ctx) => {
                         setIsLoading(false);
                         // todo: be careful -> server side errors should not exposed here.
                         toast.error(
-                            ctx.error.message || "Registration failed.",
+                            ctx.error.message || "Login failed.",
                         );
                     },
                 },
