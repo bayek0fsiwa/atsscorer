@@ -2,7 +2,42 @@ import { NextResponse } from "next/server";
 import PDFParser from "pdf2json";
 import { auth } from "@/lib/auth";
 import { db } from "@/db";
+import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { resumeEvaluation } from "@/db/schema/resume-evaluations-schema";
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+const resultSchema: Schema = {
+    type: Type.OBJECT,
+    properties: {
+        score: {
+            type: Type.INTEGER,
+            description: "The ATS compatibility score of the resume out of 100",
+        },
+        matchingKeywords: {
+            type: Type.ARRAY,
+            items: {
+                type: Type.STRING,
+            },
+            description: "Keywords from the job description that were found in the resume",
+        },
+        missingKeywords: {
+            type: Type.ARRAY,
+            items: {
+                type: Type.STRING,
+            },
+            description: "Important keywords from the job description that are missing in the resume",
+        },
+        tips: {
+            type: Type.ARRAY,
+            items: {
+                type: Type.STRING,
+            },
+            description: "Actionable tips and areas of improvement for the resume",
+        },
+    },
+    required: ["score", "matchingKeywords", "missingKeywords", "tips"],
+};
 
 export async function POST(request: Request) {
     try {
@@ -42,22 +77,44 @@ export async function POST(request: Request) {
             pdfParser.parseBuffer(buffer);
         });
 
-        // Save to Database (Mock AI Score for now)
+        // Evaluate Resume against Job Description using Gemini
+        const prompt = `You are an expert ATS (Applicant Tracking System).
+Evaluate this resume against the provided job description.
+Be strict and objective.
+
+Job Description:
+${jobDescription}
+
+Resume:
+${extractedText}`;
+
+        const response = await ai.models.generateContent({
+            model: "gemini-3.1-pro-preview",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: resultSchema,
+            },
+        });
+
+        const evaluationResult = JSON.parse(response.text || "{}");
+
+        // Save to Database
         const [savedEvaluation] = await db.insert(resumeEvaluation).values({
             userId: session.user.id,
             file_name: pdfFile.name,
             file_content: extractedText,
             job_description: jobDescription,
-            score: 0, // Mock score until AI is ready
+            score: evaluationResult.score || 0,
             metrics: {
-                matchingKeywords: [],
-                missingKeywords: [],
-                tips: []
+                matchingKeywords: evaluationResult.matchingKeywords || [],
+                missingKeywords: evaluationResult.missingKeywords || [],
+                tips: evaluationResult.tips || []
             }
         }).returning();
 
         return NextResponse.json({
-            message: "File parsed and saved successfully",
+            message: "File evaluated successfully",
             evaluation: savedEvaluation
         });
 
