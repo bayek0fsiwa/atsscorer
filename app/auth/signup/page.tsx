@@ -29,7 +29,7 @@ import {
     FieldGroup,
 } from "@/components/ui/field";
 
-import { GithubIcon, GoogleIcon } from "../icons";
+import { AppleIcon, GithubIcon, GoogleIcon } from "../icons";
 import { authClient } from "@/lib/auth-client";
 
 const signupSchema = z.object({
@@ -42,15 +42,12 @@ const signupSchema = z.object({
         .min(8, "Password must be at least 8 characters"),
 });
 
-type SocialProvider = "google" | "github";
+type SocialProvider = "google" | "github" | "apple";
 
 export default function SignupForm() {
     const router = useRouter();
-    const [pendingProvider, setPendingProvider] =
-        useState<SocialProvider | null>(null);
-
-    const [isLoading, setIsLoading] =
-        useState<boolean>(false);
+    const [pendingProvider, setPendingProvider] = useState<SocialProvider | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const form = useForm({
         defaultValues: {
@@ -93,15 +90,10 @@ export default function SignupForm() {
         },
     });
 
-    const handleSocialLogin = async (
-        provider: SocialProvider,
-    ) => {
+    const handleSocialLogin = async (provider: SocialProvider,) => {
         setPendingProvider(provider);
-
         try {
-            await authClient.signIn.social({
-                provider: provider,
-            });
+            await authClient.signIn.social({ provider: provider, });
         } catch (err) {
             setPendingProvider(null);
             console.error(err);
@@ -145,6 +137,22 @@ export default function SignupForm() {
                                 <GoogleIcon className="mr-2 size-5" />
                             )}
                             Continue with Google
+                        </Button>
+
+                        {/* Apple Button */}
+                        <Button
+                            variant="outline"
+                            disabled={false}
+                            className="h-11 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70"
+                            onClick={() => {
+                                handleSocialLogin("apple");
+                            }}>
+                            {pendingProvider === "apple" ? (
+                                <LoaderPinwheel className="mr-2 size-5 animate-spin" />
+                            ) : (
+                                <AppleIcon className="mr-2 size-5" />
+                            )}
+                            Continue with Apple
                         </Button>
 
                         {/* GitHub Button */}
