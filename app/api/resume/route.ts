@@ -51,11 +51,11 @@ export async function POST(request: Request) {
 
         const formData = await request.formData();
         const pdfFile = formData.get("pdfFile") as File | null;
-        const jobDescription = formData.get("jobDescription") as string;
+        const jobDescription = formData.get("jobDescription") as string || "";
 
-        if (!pdfFile || typeof pdfFile === "string" || !jobDescription) {
+        if (!pdfFile || typeof pdfFile === "string") {
             return NextResponse.json(
-                { error: "Please provide a valid PDF file and Job Description." },
+                { error: "Please provide a valid PDF file." },
                 { status: 400 }
             );
         }
@@ -80,7 +80,7 @@ export async function POST(request: Request) {
         // Evaluate Resume against Job Description using Gemini
         const currentDate = new Date().toISOString().split('T')[0];
         const prompt = `You are an expert ATS (Applicant Tracking System).
-Evaluate this resume against the provided job description.
+Evaluate this resume against the provided job description and if no job description is provided, evaluate it against a generic job description for the role mentioned in the resume.
 Be strict and objective.
 
 Today's date is: ${currentDate}. Keep this context in mind if dates are mentioned in the resume.

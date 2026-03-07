@@ -16,8 +16,8 @@ export default function Resume() {
     const [scoreResult, setScoreResult] = useState<ScoringResult | null>(null);
 
     const handleScore = async () => {
-        if (!file || !jobDescription.trim()) {
-            toast.error("Please upload a resume and provide a job description.");
+        if (!file) {
+            toast.error("Please upload a resume.");
             return;
         }
 
@@ -67,7 +67,7 @@ export default function Resume() {
             <div>
                 <h1 className="text-2xl font-semibold">Score Your Resume</h1>
                 <p className="text-muted-foreground text-sm mt-1">
-                    Upload your resume and paste the job description to get your ATS score.
+                    Upload your resume and optionally paste a job description to get your ATS score.
                 </p>
             </div>
 
@@ -93,12 +93,12 @@ export default function Resume() {
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-base">Job Description</CardTitle>
-                        <CardDescription>Paste the job description to compare against.</CardDescription>
+                        <CardDescription>Paste the job description to compare against (optional).</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Textarea
                             id="job-description"
-                            placeholder="Paste the job description here..."
+                            placeholder="Paste the job description here (optional)..."
                             className="h-52 resize-none overflow-y-auto"
                             value={jobDescription}
                             onChange={(e) => setJobDescription(e.target.value)}
@@ -113,7 +113,7 @@ export default function Resume() {
                 <Button
                     size="lg"
                     onClick={handleScore}
-                    disabled={isLoading || !file || !jobDescription.trim()}
+                    disabled={isLoading || !file}
                 >
                     {isLoading && <LoaderPinwheel className="size-4 animate-spin mr-2" />}
                     Score my Resume →
