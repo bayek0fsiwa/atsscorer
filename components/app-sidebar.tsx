@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Image from "next/image"
-import { FileUser, House, } from "lucide-react"
+import { FileUser, House, History } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
@@ -25,6 +25,11 @@ const navMain = [
         title: "Resumes",
         url: "/resumes",
         icon: FileUser,
+    },
+    {
+        title: "History",
+        url: "/history",
+        icon: History,
     },
 ]
 
