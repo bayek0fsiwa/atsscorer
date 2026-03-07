@@ -92,10 +92,24 @@ export default function LoginForm() {
         setPasskeyLoading(true);
         try {
             const result = await authClient.signIn.passkey();
+
             if (!result || result.error) {
-                // User cancelled or an error occurred — do nothing silently
+                const err = result?.error;
+                const code = err && "code" in err ? (err as { code: string }).code : "";
+
+                if (code === "PASSKEY_NOT_FOUND") {
+                    toast.error("No passkey found for this device. Please sign in with your password first, then register a passkey from Account settings.");
+                } else if (code === "AUTHENTICATION_FAILED") {
+                    toast.error("Passkey verification failed. Try again or use a different sign-in method.");
+                } else if (code === "AUTH_CANCELLED" || code === "ERROR_CEREMONY_ABORTED" || code === "CHALLENGE_NOT_FOUND") {
+                    // User cancelled — do nothing
+                } else if (code) {
+                    toast.error(err?.message ?? "Passkey sign in failed.");
+                }
+                // no code and no data = silent cancel from browser
                 return;
             }
+
             toast.success("Logged in successfully!");
             router.push("/");
         } catch (err) {

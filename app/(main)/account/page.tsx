@@ -1,4 +1,5 @@
 import { Shield, User, Bell } from "lucide-react";
+import { PasskeySection } from "./passkey-section";
 import {
     Card,
     CardContent,
@@ -56,8 +57,8 @@ export default function AccountPage() {
                             Add a passkey to sign in without a password using Face ID, fingerprint, or Windows Hello.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="text-sm text-muted-foreground">
-                        Coming soon.
+                    <CardContent>
+                        <PasskeySection />
                     </CardContent>
                 </Card>
                 <Card>
