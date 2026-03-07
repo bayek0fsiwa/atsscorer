@@ -1,10 +1,53 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Dropzone } from "@/components/ui/dropzone";
+import { toast } from "sonner";
+import { LoaderPinwheel } from "lucide-react";
 
 export default function Resume() {
+    const [file, setFile] = useState<File | null>(null);
+    const [jobDescription, setJobDescription] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleScore = async () => {
+        if (!file || !jobDescription.trim()) {
+            toast.error("Please upload a resume and provide a job description.");
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const formData = new FormData();
+            formData.append("pdfFile", file);
+            formData.append("jobDescription", jobDescription);
+
+            const response = await fetch("/api/resume", {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.details || data.error || "Failed to parse resume.");
+            }
+
+            toast.success("Resume parsed successfully!");
+            console.log("Extracted HTML/Text:", data.extractedText);
+
+            // TODO: Here is where we'll eventually show the AI scoring results.
+
+        } catch (error: any) {
+            toast.error(error.message || "An error occurred while scoring the resume.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="max-w-4xl mx-auto space-y-6">
             {/* Heading */}
@@ -21,11 +64,15 @@ export default function Resume() {
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-base">Resume</CardTitle>
-                        <CardDescription>Upload a PDF or DOCX file.</CardDescription>
+                        <CardDescription>Upload a PDF.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Label htmlFor="resume" className="mb-2 block">Choose file</Label>
-                        <Input id="resume" type="file" accept=".pdf,.docx" />
+                        <Dropzone
+                            file={file}
+                            onDrop={(acceptedFiles) => setFile(acceptedFiles[0])}
+                            onRemove={() => setFile(null)}
+                            accept={{ "application/pdf": [".pdf"] }}
+                        />
                     </CardContent>
                 </Card>
 
@@ -40,6 +87,9 @@ export default function Resume() {
                             id="job-description"
                             placeholder="Paste the job description here..."
                             className="h-52 resize-none overflow-y-auto"
+                            value={jobDescription}
+                            onChange={(e) => setJobDescription(e.target.value)}
+                            disabled={isLoading}
                         />
                     </CardContent>
                 </Card>
@@ -47,7 +97,14 @@ export default function Resume() {
 
             {/* CTA */}
             <div className="flex justify-center">
-                <Button size="lg">Score my Resume →</Button>
+                <Button
+                    size="lg"
+                    onClick={handleScore}
+                    disabled={isLoading || !file || !jobDescription.trim()}
+                >
+                    {isLoading && <LoaderPinwheel className="size-4 animate-spin mr-2" />}
+                    Score my Resume →
+                </Button>
             </div>
         </div>
     );
