@@ -8,6 +8,7 @@ import { FileText, Calendar, ArrowRight, LoaderPinwheel } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { format } from "date-fns";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 interface HistoryItem {
     id: string;
@@ -87,9 +88,77 @@ export default function HistoryPage() {
                                 {item.job_description || "No job description provided."}
                             </CardContent>
                             <div className="p-4 pt-0 mt-auto">
-                                <Button variant="secondary" className="w-full text-xs" disabled>
-                                    View Full Details <ArrowRight className="size-3 ml-2" />
-                                </Button>
+                                <Sheet>
+                                    <SheetTrigger asChild>
+                                        <Button variant="secondary" className="w-full text-xs" disabled={item.score === 0}>
+                                            View Full Details <ArrowRight className="size-3 ml-2" />
+                                        </Button>
+                                    </SheetTrigger>
+                                    <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
+                                        <SheetHeader>
+                                            <SheetTitle>{item.file_name}</SheetTitle>
+                                            <SheetDescription>
+                                                Evaluated on {format(new Date(item.createdAt), "PPP")}
+                                            </SheetDescription>
+                                        </SheetHeader>
+                                        <div className="mt-6 space-y-6">
+                                            <div>
+                                                <h3 className="text-lg font-semibold flex items-center gap-2 ml-2">
+                                                    ATS Score
+                                                    <Badge variant={item.score > 75 ? "default" : item.score > 0 ? "secondary" : "outline"}>
+                                                        {item.score}%
+                                                    </Badge>
+                                                </h3>
+                                            </div>
+
+                                            {(item.metrics?.keywordMatches?.length > 0 || item.metrics?.matchingKeywords?.length > 0) && (
+                                                <div>
+                                                    <h4 className="font-medium text-sm mb-2 ml-2">Keyword Matches</h4>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {(item.metrics.keywordMatches || item.metrics.matchingKeywords).map((keyword: string, i: number) => (
+                                                            <Badge key={i} variant="outline" className="bg-green-50 text-green-700 border-green-200 ml-2">
+                                                                {keyword}
+                                                            </Badge>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {item.metrics?.missingKeywords && item.metrics.missingKeywords.length > 0 && (
+                                                <div>
+                                                    <h4 className="font-medium text-sm mb-2 ml-2">Missing Keywords</h4>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {item.metrics.missingKeywords.map((keyword: string, i: number) => (
+                                                            <Badge key={i} variant="outline" className="bg-red-50 text-red-700 border-red-200  ml-2">
+                                                                {keyword}
+                                                            </Badge>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {(item.metrics?.improvementSuggestions?.length > 0 || item.metrics?.tips?.length > 0) && (
+                                                <div>
+                                                    <h4 className="font-medium text-sm mb-2 ml-2">Areas for Improvement</h4>
+                                                    <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground ml-2">
+                                                        {(item.metrics.improvementSuggestions || item.metrics.tips).map((suggestion: string, i: number) => (
+                                                            <li key={i}>{suggestion}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+
+                                            {item.job_description && (
+                                                <div>
+                                                    <h4 className="font-medium text-sm mb-2 ml-2">Job Description Used</h4>
+                                                    <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md max-h-[200px] overflow-y-auto whitespace-pre-wrap">
+                                                        {item.job_description}
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </SheetContent>
+                                </Sheet>
                             </div>
                         </Card>
                     ))}
