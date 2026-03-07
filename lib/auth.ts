@@ -24,5 +24,10 @@ export const auth = betterAuth({
         },
     },
     plugins: [passkey()],
+    user: {
+        deleteUser: {
+            enabled: true,
+        },
+    },
 });
 

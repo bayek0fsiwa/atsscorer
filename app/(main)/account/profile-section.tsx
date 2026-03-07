@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { EditNameSection } from "./edit-name-section";
 
 function getInitials(name: string) {
     return name
@@ -50,10 +51,7 @@ export function ProfileSection() {
 
             <div className="space-y-3 text-sm">
                 {/* Name */}
-                <div>
-                    <p className="text-xs text-muted-foreground mb-0.5">Full Name</p>
-                    <p className="font-medium">{user.name}</p>
-                </div>
+                <EditNameSection />
 
                 {/* Email + verified badge */}
                 <div>

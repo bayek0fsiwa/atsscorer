@@ -1,7 +1,9 @@
-import { Shield, User } from "lucide-react";
+import { Shield, User, TriangleAlert } from "lucide-react";
 import { PasskeySection } from "./passkey-section";
 import { ProfileSection } from "./profile-section";
 import { PasswordSection } from "./password-section";
+import { SessionsSection } from "./sessions-section";
+import { DeleteAccountSection } from "./delete-account-section";
 import {
     Card,
     CardContent,
@@ -71,6 +73,30 @@ export default function AccountPage() {
                         </CardDescription>
                     </CardHeader>
                     <PasswordSection />
+                </Card>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-base">Active Sessions</CardTitle>
+                        <CardDescription>
+                            Manage devices currently signed in to your account.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <SessionsSection />
+                    </CardContent>
+                </Card>
+            </section>
+
+            {/* Danger Zone */}
+            <section className="space-y-4">
+                <div className="flex items-center gap-2 text-sm font-medium text-destructive uppercase tracking-wider">
+                    <TriangleAlert className="size-4" />
+                    Danger Zone
+                </div>
+                <Card className="border-destructive/50">
+                    <CardContent className="pt-6">
+                        <DeleteAccountSection />
+                    </CardContent>
                 </Card>
             </section>
 
