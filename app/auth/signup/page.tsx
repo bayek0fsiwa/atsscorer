@@ -104,7 +104,7 @@ export default function SignupForm() {
     return (
         <div className="flex items-center justify-center h-dvh">
             <Card className="w-full max-w-110 border-[#262626] bg-[#121212] text-white">
-                <CardHeader className="space-y-4 pt-4 text-center">
+                <CardHeader className="space-y-2 pt-4 text-center">
                     <Image
                         src={"/logo.svg"}
                         className="h-10 w-10 mx-auto"
@@ -120,7 +120,7 @@ export default function SignupForm() {
                     </CardDescription>
                 </CardHeader>
 
-                <CardContent className="flex flex-col gap-3 px-10">
+                <CardContent className="flex flex-col gap-2 px-10">
                     {/* Social Buttons */}
                     <div className="flex flex-col gap-3">
                         {/* Google Button */}
@@ -172,7 +172,7 @@ export default function SignupForm() {
                         </Button>
                     </div>
 
-                    <div className="relative my-4 flex items-center justify-center">
+                    <div className="relative my-3 flex items-center justify-center">
                         <div className="absolute w-full border-t border-[#333]"></div>
                         <span className="relative bg-[#121212] px-3 text-[11px] font-medium uppercase tracking-widest text-[#888]">
                             OR

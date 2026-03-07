@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { passkey } from "@better-auth/passkey";
 import { db } from "@/db";
 import { schema } from "@/db/schema/auth-schema";
 
@@ -22,4 +23,6 @@ export const auth = betterAuth({
             clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
         },
     },
+    plugins: [passkey()],
 });
+

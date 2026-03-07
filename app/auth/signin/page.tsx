@@ -3,7 +3,7 @@
 import * as z from "zod";
 import Link from "next/link";
 import Image from "next/image";
-import { LoaderPinwheel } from "lucide-react";
+import { Fingerprint, LoaderPinwheel } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -42,6 +42,7 @@ export default function LoginForm() {
     const router = useRouter();
     const [pendingProvider, setPendingProvider] = useState<SocialProvider | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [passkeyLoading, setPasskeyLoading] = useState<boolean>(false);
 
     const form = useForm({
         defaultValues: { email: "", password: "" },
@@ -87,10 +88,29 @@ export default function LoginForm() {
         }
     };
 
+    const handlePasskeyLogin = async () => {
+        setPasskeyLoading(true);
+        try {
+            const result = await authClient.signIn.passkey();
+            if (!result || result.error) {
+                // User cancelled or an error occurred — do nothing silently
+                return;
+            }
+            toast.success("Logged in successfully!");
+            router.push("/");
+        } catch (err) {
+            console.error(err);
+            toast.error("Passkey sign in failed.");
+        } finally {
+            setPasskeyLoading(false);
+        }
+    };
+
+
     return (
         <div className="flex items-center justify-center h-dvh">
             <Card className="w-full max-w-110 border-[#262626] bg-[#121212] text-white">
-                <CardHeader className="space-y-4 pt-4 text-center">
+                <CardHeader className="space-y-2 pt-4 text-center">
                     <Image
                         src={"/logo.svg"}
                         className="h-10 w-10 mx-auto"
@@ -106,7 +126,7 @@ export default function LoginForm() {
                     </CardDescription>
                 </CardHeader>
 
-                <CardContent className="flex flex-col gap-3 px-10">
+                <CardContent className="flex flex-col gap-2 px-10">
                     {/* Social Buttons */}
                     <div className="flex flex-col gap-3">
                         {/* Google Button */}
@@ -158,12 +178,26 @@ export default function LoginForm() {
                         </Button>
                     </div>
 
-                    <div className="relative my-6 flex items-center justify-center">
+                    <div className="relative my-3 flex items-center justify-center">
                         <div className="absolute w-full border-t border-[#333]"></div>
                         <span className="relative bg-[#121212] px-3 text-[11px] font-medium uppercase tracking-widest text-[#888]">
                             OR
                         </span>
                     </div>
+
+                    {/* Passkey Button */}
+                    <Button
+                        variant="outline"
+                        onClick={handlePasskeyLogin}
+                        disabled={passkeyLoading}
+                        className="h-11 w-full rounded-xl border-[#424242] bg-transparent text-[15px] font-normal transition-colors hover:bg-[#2f2f2f] hover:text-white disabled:opacity-70 mb-2">
+                        {passkeyLoading ? (
+                            <LoaderPinwheel className="mr-2 size-5 animate-spin" />
+                        ) : (
+                            <Fingerprint className="mr-2 size-5" />
+                        )}
+                        Sign in with Passkey
+                    </Button>
 
                     <form
                         onSubmit={(e) => {

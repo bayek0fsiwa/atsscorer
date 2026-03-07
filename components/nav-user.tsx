@@ -83,7 +83,7 @@ export function NavUser({ user, }: { user: { name: string, email: string, image?
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => router.push("/account")} className="cursor-pointer">
                                 <CircleUser />
                                 Account
                             </DropdownMenuItem>
