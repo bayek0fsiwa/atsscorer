@@ -139,7 +139,7 @@ export default function SignupForm() {
                             onClick={() => {
                                 handleSocialLogin("google");
                             }}>
-                            {pendingProvider == "google" ? (
+                            {pendingProvider === "google" ? (
                                 <Loader2 className="mr-2 size-5 animate-spin" />
                             ) : (
                                 <GoogleIcon className="mr-2 size-5" />
