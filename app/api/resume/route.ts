@@ -1,14 +1,26 @@
 import { NextResponse } from "next/server";
 import PDFParser from "pdf2json";
+import { auth } from "@/lib/auth";
+import { db } from "@/db";
+import { resumeEvaluation } from "@/db/schema/resume-evaluations-schema";
 
 export async function POST(request: Request) {
     try {
-        const formData = await request.formData();
-        const pdfFile = formData.get("pdfFile");
+        const session = await auth.api.getSession({
+            headers: request.headers
+        });
 
-        if (!pdfFile || typeof pdfFile === "string") {
+        if (!session || !session.user) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        const formData = await request.formData();
+        const pdfFile = formData.get("pdfFile") as File | null;
+        const jobDescription = formData.get("jobDescription") as string;
+
+        if (!pdfFile || typeof pdfFile === "string" || !jobDescription) {
             return NextResponse.json(
-                { error: "Please provide a valid PDF file." },
+                { error: "Please provide a valid PDF file and Job Description." },
                 { status: 400 }
             );
         }
@@ -30,9 +42,23 @@ export async function POST(request: Request) {
             pdfParser.parseBuffer(buffer);
         });
 
+        // Save to Database (Mock AI Score for now)
+        const [savedEvaluation] = await db.insert(resumeEvaluation).values({
+            userId: session.user.id,
+            file_name: pdfFile.name,
+            file_content: extractedText,
+            job_description: jobDescription,
+            score: 0, // Mock score until AI is ready
+            metrics: {
+                matchingKeywords: [],
+                missingKeywords: [],
+                tips: []
+            }
+        }).returning();
+
         return NextResponse.json({
-            message: "File parsed successfully",
-            extractedText
+            message: "File parsed and saved successfully",
+            evaluation: savedEvaluation
         });
 
     } catch (error: any) {

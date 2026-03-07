@@ -7,11 +7,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropzone";
 import { toast } from "sonner";
 import { LoaderPinwheel } from "lucide-react";
+import { ScoreDashboard, ScoringResult } from "@/components/ui/score-dashboard";
 
 export default function Resume() {
     const [file, setFile] = useState<File | null>(null);
     const [jobDescription, setJobDescription] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [scoreResult, setScoreResult] = useState<ScoringResult | null>(null);
 
     const handleScore = async () => {
         if (!file || !jobDescription.trim()) {
@@ -36,10 +38,8 @@ export default function Resume() {
                 throw new Error(data.details || data.error || "Failed to parse resume.");
             }
 
-            toast.success("Resume parsed successfully!");
-            console.log("Extracted HTML/Text:", data.extractedText);
-
-            // TODO: Here is where we'll eventually show the AI scoring results.
+            toast.success("Resume parsed and saved successfully!");
+            setScoreResult(data.evaluation);
 
         } catch (error: any) {
             toast.error(error.message || "An error occurred while scoring the resume.");
@@ -47,6 +47,19 @@ export default function Resume() {
             setIsLoading(false);
         }
     };
+
+    const handleReset = () => {
+        setScoreResult(null);
+        setFile(null);
+    };
+
+    if (scoreResult) {
+        return (
+            <div className="max-w-4xl mx-auto">
+                <ScoreDashboard data={scoreResult} onReset={handleReset} />
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-4xl mx-auto space-y-6">
