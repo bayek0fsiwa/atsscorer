@@ -23,7 +23,9 @@ export const auth = betterAuth({
             clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
         },
     },
-    plugins: [passkey()],
+    plugins: [
+        passkey()
+    ],
     user: {
         deleteUser: {
             enabled: true,

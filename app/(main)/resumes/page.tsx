@@ -38,7 +38,7 @@ export default function Resume() {
                 throw new Error(data.details || data.error || "Failed to parse resume.");
             }
 
-            toast.success("Resume parsed and saved successfully!");
+            toast.success("Resume parsed successfully!");
             setScoreResult(data.evaluation);
 
         } catch (error: any) {
