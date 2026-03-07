@@ -39,7 +39,7 @@ export default function Resume() {
                         <Textarea
                             id="job-description"
                             placeholder="Paste the job description here..."
-                            className="min-h-32 resize-none"
+                            className="h-52 resize-none overflow-y-auto"
                         />
                     </CardContent>
                 </Card>
