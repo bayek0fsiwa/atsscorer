@@ -78,9 +78,12 @@ export async function POST(request: Request) {
         });
 
         // Evaluate Resume against Job Description using Gemini
+        const currentDate = new Date().toISOString().split('T')[0];
         const prompt = `You are an expert ATS (Applicant Tracking System).
 Evaluate this resume against the provided job description.
 Be strict and objective.
+
+Today's date is: ${currentDate}. Keep this context in mind if dates are mentioned in the resume.
 
 Job Description:
 ${jobDescription}
@@ -89,7 +92,7 @@ Resume:
 ${extractedText}`;
 
         const response = await ai.models.generateContent({
-            model: "gemini-3.1-pro-preview",
+            model: "gemini-2.5-flash",
             contents: prompt,
             config: {
                 responseMimeType: "application/json",

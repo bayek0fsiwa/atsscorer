@@ -68,22 +68,24 @@ export function ScoreDashboard({ data, onReset }: ScoreDashboardProps) {
                 <div className="md:col-span-2 space-y-6">
 
                     {/* Raw Text Extraction Verification (Mock Version Feature) */}
-                    <Card>
-                        <CardHeader className="pb-3">
-                            <CardTitle className="text-base flex items-center gap-2">
-                                <FileText className="size-4 text-primary" />
-                                Extracted Text Verification
-                            </CardTitle>
-                            <CardDescription>
-                                We successfully parsed your PDF. Once AI is enabled, this text will be evaluated.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="bg-muted/50 p-4 rounded-md text-xs font-mono whitespace-pre-wrap max-h-60 overflow-y-auto border">
-                                {data.file_content || "No text extracted. Make sure the PDF is not an image."}
-                            </div>
-                        </CardContent>
-                    </Card>
+                    {isMock && (
+                        <Card>
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-base flex items-center gap-2">
+                                    <FileText className="size-4 text-primary" />
+                                    Extracted Text Verification
+                                </CardTitle>
+                                <CardDescription>
+                                    We successfully parsed your PDF. Once AI is enabled, this text will be evaluated.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="bg-muted/50 p-4 rounded-md text-xs font-mono whitespace-pre-wrap max-h-60 overflow-y-auto border">
+                                    {data.file_content || "No text extracted. Make sure the PDF is not an image."}
+                                </div>
+                            </CardContent>
+                        </Card>
+                    )}
 
                     {/* AI Metrics (Hidden until AI works, but we mock it for design) */}
                     {!isMock && (
