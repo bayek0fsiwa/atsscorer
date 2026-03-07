@@ -1,5 +1,7 @@
-import { Shield, User, Bell } from "lucide-react";
+import { Shield, User } from "lucide-react";
 import { PasskeySection } from "./passkey-section";
+import { ProfileSection } from "./profile-section";
+import { PasswordSection } from "./password-section";
 import {
     Card,
     CardContent,
@@ -38,8 +40,8 @@ export default function AccountPage() {
                             Your name and email address associated with your account.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="text-sm text-muted-foreground">
-                        Coming soon.
+                    <CardContent>
+                        <ProfileSection />
                     </CardContent>
                 </Card>
             </section>
@@ -68,30 +70,10 @@ export default function AccountPage() {
                             Change your account password.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="text-sm text-muted-foreground">
-                        Coming soon.
-                    </CardContent>
+                    <PasswordSection />
                 </Card>
             </section>
 
-            {/* Notifications Section */}
-            <section className="space-y-4">
-                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                    <Bell className="size-4" />
-                    Notifications
-                </div>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-base">Email Notifications</CardTitle>
-                        <CardDescription>
-                            Choose what updates you want to receive by email.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="text-sm text-muted-foreground">
-                        Coming soon.
-                    </CardContent>
-                </Card>
-            </section>
         </div>
     );
 }
