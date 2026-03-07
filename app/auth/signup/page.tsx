@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "@tanstack/react-form";
 
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { LoaderPinwheel } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -140,7 +140,7 @@ export default function SignupForm() {
                                 handleSocialLogin("google");
                             }}>
                             {pendingProvider === "google" ? (
-                                <Loader2 className="mr-2 size-5 animate-spin" />
+                                <LoaderPinwheel className="mr-2 size-5 animate-spin" />
                             ) : (
                                 <GoogleIcon className="mr-2 size-5" />
                             )}
@@ -156,7 +156,7 @@ export default function SignupForm() {
                                 handleSocialLogin("github");
                             }}>
                             {pendingProvider === "github" ? (
-                                <Loader2 className="mr-2 size-5 animate-spin" />
+                                <LoaderPinwheel className="mr-2 size-5 animate-spin" />
                             ) : (
                                 <GithubIcon className="mr-2 size-5" />
                             )}
@@ -304,7 +304,7 @@ export default function SignupForm() {
                                         className="mt-2 h-11 w-full rounded-full bg-[#ececec] text-[16px] font-semibold text-black hover:bg-white disabled:opacity-50"
                                         disabled={!canSubmit || !isDirty}>
                                         {isSubmitting || isLoading ? (
-                                            <Loader2 className="size-5 animate-spin" />
+                                            <LoaderPinwheel className="size-5 animate-spin" />
                                         ) : (
                                             "Sign Up"
                                         )}
