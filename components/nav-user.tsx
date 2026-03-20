@@ -36,7 +36,7 @@ export function NavUser({ user, }: { user: { name: string, email: string, image?
     const handleSignOut = async () => {
         await authClient.signOut({
             fetchOptions: {
-                onSuccess: () => router.push("/auth/signin"),
+                onSuccess: () => router.replace('/auth/signin'),
             },
         })
     }
