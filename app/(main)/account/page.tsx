@@ -13,11 +13,21 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+
 export const metadata = {
     title: "Account | ATS Scorer",
 };
 
-export default function AccountPage() {
+export default async function AccountPage() {
+    const activeHeaders = await headers();
+    const accounts = await auth.api.listUserAccounts({
+        headers: activeHeaders,
+    });
+
+    const isPasswordUser = accounts.some((account: { providerId: string }) => account.providerId === "credential");
+
     return (
         <div className="mx-auto max-w-3xl px-6 py-10 space-y-8">
             <div>
@@ -65,15 +75,17 @@ export default function AccountPage() {
                         <PasskeySection />
                     </CardContent>
                 </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-base">Password</CardTitle>
-                        <CardDescription>
-                            Change your account password.
-                        </CardDescription>
-                    </CardHeader>
-                    <PasswordSection />
-                </Card>
+                {isPasswordUser && (
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-base">Password</CardTitle>
+                            <CardDescription>
+                                Change your account password.
+                            </CardDescription>
+                        </CardHeader>
+                        <PasswordSection />
+                    </Card>
+                )}
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-base">Active Sessions</CardTitle>
@@ -88,17 +100,19 @@ export default function AccountPage() {
             </section>
 
             {/* Danger Zone */}
-            <section className="space-y-4">
-                <div className="flex items-center gap-2 text-sm font-medium text-destructive uppercase tracking-wider">
-                    <TriangleAlert className="size-4" />
-                    Danger Zone
-                </div>
-                <Card className="border-destructive/50">
-                    <CardContent className="pt-6">
-                        <DeleteAccountSection />
-                    </CardContent>
-                </Card>
-            </section>
+            {isPasswordUser && (
+                <section className="space-y-4">
+                    <div className="flex items-center gap-2 text-sm font-medium text-destructive uppercase tracking-wider">
+                        <TriangleAlert className="size-4" />
+                        Danger Zone
+                    </div>
+                    <Card className="border-destructive/50">
+                        <CardContent className="pt-6">
+                            <DeleteAccountSection />
+                        </CardContent>
+                    </Card>
+                </section>
+            )}
 
         </div>
     );
