@@ -2,6 +2,7 @@ import { Shield, User, TriangleAlert } from "lucide-react";
 import { PasskeySection } from "./passkey-section";
 import { ProfileSection } from "./profile-section";
 import { PasswordSection } from "./password-section";
+import { LinkedAccountsSection } from "./linked-accounts-section";
 import { SessionsSection } from "./sessions-section";
 import { DeleteAccountSection } from "./delete-account-section";
 import {
@@ -73,6 +74,17 @@ export default async function AccountPage() {
                     </CardHeader>
                     <CardContent>
                         <PasskeySection />
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-base">Linked Accounts</CardTitle>
+                        <CardDescription>
+                            Manage your connected social accounts.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <LinkedAccountsSection initialAccounts={accounts} />
                     </CardContent>
                 </Card>
                 {isPasswordUser && (

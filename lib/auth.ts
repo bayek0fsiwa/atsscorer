@@ -24,7 +24,7 @@ export const auth = betterAuth({
         },
     },
     plugins: [
-        passkey()
+        passkey(),
     ],
     user: {
         deleteUser: {
@@ -32,4 +32,3 @@ export const auth = betterAuth({
         },
     },
 });
-
