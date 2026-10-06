@@ -111,6 +111,7 @@ export default function SignupForm() {
                         height={40}
                         width={40}
                         alt="ATS Scorer"
+                        priority
                     />
                     <CardTitle className="text-[32px] font-semibold tracking-tight text-[#ececec]">
                         Create an account
